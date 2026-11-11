@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+ <meta name="theme-color" content="#161c36">
+ <meta name="description" content="RechtQuest – interaktiver Lernkurs zu Nichtigkeit und Anfechtbarkeit von Rechtsgeschäften mit Übungen, XP und Lernportfolio.">
+ <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+ <link rel="stylesheet" href="/style.css">
+ <title>RechtQuest – Nichtigkeit & Anfechtbarkeit</title>
+</head>
+<body>
+ <div class="app-shell">
+  <aside id="sidebar" class="sidebar" aria-label="Kursnavigation">
+   <div class="brand"><div class="brand-mark">§</div><div><strong>RECHT<span>QUEST</span></strong><small>Ihr Lernabenteuer</small></div></div>
+   <div class="sidebar-heading">IHR LERNPFAD</div>
+   <nav id="navChapters" aria-label="Kapitel"></nav>
+   <div class="sidebar-heading tools-heading">EXTRAS</div>
+   <nav id="navExtras" aria-label="Zusatzbereiche"></nav>
+   <div id="sidebarCard" class="sidebar-card"></div>
+   <div class="side-foot">Rechtsgeschäfte verstehen.<br>Entscheidungen begründen.</div>
+  </aside>
+  <div class="workspace">
+   <header class="topbar">
+    <button class="menu-toggle icon-btn" id="menuToggle" aria-label="Menü öffnen">☰</button>
+    <div class="crumbs" id="breadcrumbs">Lernübersicht</div>
+    <div class="top-right">
+     <span class="save-state" id="saveState"><span class="signal"></span> Gastmodus</span>
+     <div class="xp-pill" title="Gesammelte Erfahrungspunkte"><span>✦</span><strong id="totalXP">0</strong> XP</div>
+     <button id="openProfile" class="top-avatar" aria-label="Profil und Avatar öffnen"><span id="miniAvatar">🦊</span></button>
+    </div>
+   </header>
+   <main id="mainContent" tabindex="-1"></main>
+   <footer class="legal-footer">
+    <details>
+     <summary>KI-Nachweis & fachliche Hinweise</summary>
+     <p><strong>KI-Nachweis:</strong> Die Konzeption, Gestaltung und technische Überarbeitung dieses Kurses erfolgten am <strong>11.11.2026</strong> unter Nutzung von <strong>ChatGPT (GPT-6)</strong>. Das KI-Werkzeug wurde insbesondere zur Strukturierung von Kursinhalten sowie zur Erstellung und Überarbeitung von HTML und CSS eingesetzt. Einzelne Grafiken wurden ebenfalls KI-gestützt erstellt. Die fachliche und redaktionelle Prüfung sowie die abschließende Auswahl und Anpassung der Inhalte erfolgten durch die kurserstellende Lehrkraft.</p>
+     <p>Die Kennzeichnung orientiert sich an den Empfehlungen der Universität Hamburg zum Umgang mit generativer KI. Vor dem Unterrichtseinsatz sind die Angaben zur redaktionellen Prüfung durch die Lehrkraft zu bestätigen. Unterrichtsmaterial für Lernzwecke; keine individuelle Rechtsberatung.</p>
+     <p><a href="https://www.gesetze-im-internet.de/bgb/" target="_blank" rel="noopener noreferrer">Bürgerliches Gesetzbuch (amtliche Onlinefassung)</a></p>
+    </details>
+    <small>© RechtQuest · Kurseinstieg · Nichtigkeit · Anfechtbarkeit · Wissenstraining</small>
+   </footer>
+  </div>
+ </div>
+ <div id="overlay" class="overlay" hidden></div>
+ <dialog id="solutionDialog" class="modal solution-modal">
+  <div class="modal-icon">💡</div><h2>Musterlösung anzeigen?</h2>
+  <p>Sind Sie sicher, oder möchten Sie es nicht noch einmal versuchen? Sie können Ihre Antwort weiterhin überarbeiten.</p>
+  <div class="dialog-actions"><button id="cancelSolution" class="btn btn-outline">Noch einmal versuchen</button><button id="confirmSolution" class="btn btn-primary">Musterlösung anzeigen</button></div>
+ </dialog>
+ <dialog id="authDialog" class="modal auth-modal">
+  <form id="authForm" autocomplete="on">
+   <button type="button" id="closeAuth" class="close-dialog" aria-label="Dialog schließen">✕</button>
+   <div class="auth-image">🔐</div><h2 id="authTitle">Mit Konto lernen</h2>
+   <p class="muted">Mit Konto wird Ihr Lernstand Ihrer Klasse zugeordnet und zwischen Geräten synchronisiert.</p>
+   <div class="tabs" id="authRoles" role="group" aria-label="Zugangsart"><button type="button" data-role="student" class="selected">Lernende</button><button type="button" data-role="teacher">Lehrkraft</button></div>
+   <div class="tabs second" id="authModes" role="group" aria-label="Anmeldung oder Registrierung"><button type="button" data-mode="login" class="selected">Anmelden</button><button type="button" data-mode="register">Registrieren</button><button type="button" data-mode="recover" class="recover-tab" hidden>Lehrerpasswort neu setzen</button></div>
+   <label>Klasse<input id="authClass" name="className" type="text" minlength="2" maxlength="36" required autocomplete="organization" placeholder="z. B. FOS12A"></label>
+   <label>Nickname<input id="authNick" name="nickname" type="text" minlength="3" maxlength="24" required autocomplete="username" placeholder="Ihr Nickname"></label>
+   <label id="authOldPasswordLabel">Passwort<input id="authPassword" name="password" type="password" minlength="8" maxlength="100" required autocomplete="current-password" placeholder="Mindestens 8 Zeichen"></label>
+   <label id="authNewPasswordLabel" hidden>Neues Passwort<input id="authNewPassword" name="newPassword" type="password" minlength="8" maxlength="100" autocomplete="new-password" placeholder="Neues Passwort wählen"></label>
+   <label id="teacherCodeLabel" hidden>Lehrer-Code aus Netlify<input id="teacherCode" name="teacherCode" type="password" autocomplete="off" placeholder="Code aus der Netlify-Umgebungsvariable"></label>
+   <p id="authError" class="form-error" role="alert" hidden></p>
+   <button type="submit" class="btn btn-primary btn-full" id="authSubmit">Anmelden</button>
+   <div class="auth-bottom"><button type="button" id="guestContinue" class="text-button">Ohne Anmeldung fortfahren</button></div>
+  </form>
+ </dialog>
+ <dialog id="teacherActionDialog" class="modal">
+  <div class="modal-icon">⚠️</div><h2 id="confirmActionTitle">Aktion bestätigen</h2><p id="confirmActionBody"></p>
+  <div class="dialog-actions"><button id="cancelAction" class="btn btn-outline">Abbrechen</button><button id="confirmAction" class="btn btn-danger">Ausführen</button></div>
+ </dialog>
+ <div id="toastArea" class="toast-area" aria-live="polite" aria-atomic="false"></div>
+ <script src="/app.js" type="module"></script>
+</body>
+</html>

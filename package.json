@@ -1,0 +1,16 @@
+{
+  "name": "rechtsgeschaefte-quest",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Interaktiver Lernkurs zur Nichtigkeit und Anfechtbarkeit, Netlify Functions + Blobs",
+  "scripts": {
+    "build": "node scripts/validate.mjs",
+    "test": "node --test tests/*.test.mjs && node scripts/smoke-api.mjs",
+    "check": "npm run build && npm test"
+  },
+  "dependencies": {
+    "@netlify/blobs": "11.1.9"
+  },
+  "engines": { "node": ">=22" }
+}
